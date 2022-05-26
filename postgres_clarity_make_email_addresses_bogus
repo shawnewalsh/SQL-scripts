@@ -1,0 +1,4 @@
+-- update the schema name
+set search_path = sc12345;
+update srm_resources set email_address = concat('bogus',email_address,'bogus');
+update cmn_sec_users set email = concat('bogus',email,'bogus');

@@ -1,0 +1,24 @@
+-- Shawn: an example of an iterative loop
+CREATE OR REPLACE FUNCTION LoopThroughTable()
+RETURNS VOID
+AS
+$$
+DECLARE
+t_row INV_INVESTMENTS%rowtype;
+BEGIN
+FOR t_row in
+(select inv.id from
+INV_INVESTMENTS INV
+join odf_ca_inv odf on INV.id=odf.id
+join fin_plans fin on fin.object_id=inv.id
+where INV.ODF_BLUEPRINT_ID=5019014
+and odf.inv_work_package='Yes'
+and odf.odf_object_code='project'
+and fin.is_plan_of_record=1) LOOP
+ 
+select name,id,start_period_id as spi,end_period_id as epi from FIN_PLANS where IS_PLAN_OF_RECORD=1
+and object_id=1;
+END LOOP;
+END;
+$$
+LANGUAGE plpgsql;
